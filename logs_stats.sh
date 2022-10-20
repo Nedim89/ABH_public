@@ -46,11 +46,6 @@ cd $FPATH
 #names_arr=(/home/nedim/Desktop/tmp/logs/*)
 names_arr=($FPATH/*) 
 
-
-#size_arr=( $(stat -c "%s" ${FPATH}*) )
-#size_arr= ('stat -c "%s" ${FPATH}*')
-#count_arr=$(wc $FPATH/* | awk '{ print $1 }')
-#count_search
 mapfile -t size_arr< <(stat -c "%s" ${FPATH}/*) #veličina fajlova dobra komanda -><-
 
 mapfile -t count_arr< <(wc $FPATH/* | awk '{ print $1 }') #veličina fajlova dobra komanda -><-
@@ -59,12 +54,12 @@ unset count_arr[-1]
 
 mapfile -t count_search< <(for each in "${names_arr[@]}"
 do
-  grep -o 'Chrome' $each | wc -l
+  grep -o $2 $each | wc -l
 done)
 
 
 
-#for i in ${names_arr[@]}; do grep -o 'Chrome' i | wc -l; done
+
 
 #echo ${#names_arr[@]}
 #echo ${#size_arr[@]}
@@ -75,28 +70,14 @@ done)
 #printf '%s\n' "${size_arr[@]}"
 #printf '%s\n' "${size_arr[2]}"
 
-: '
-echo "${count_arr[0]}"
-echo "${count_arr[1]}"
-echo "${count_arr[2]}"
-echo "${count_arr[3]}"
-echo "${count_arr[4]}"
-echo "${count_arr[5]}"
-echo "${count_arr[6]}"
-echo "${count_arr[7]}"
-echo "${count_arr[8]}"
-echo "${count_arr[9]}"
-echo "${count_arr[10]}"
-echo "${count_arr[11]}"'
-# iterate through array using a counter
 
-#for ((i=0; i<${#count_arr[@]}; i++)); do
- #   #do something to each element of array
-  #  echo "${count_arr[$i]}"
-#done
 
-#printf '%s\n' "${names_arr[0]} ${size_arr[0]} ${count_arr[0]}"
-for ((i=0; i< "${#names_arr[@]}"; i++)) do printf "%s \t %s \t %s \t %s \n" "${names_arr[$i]}" "${size_arr[$i]}" "${count_arr[$i]}" "${count_search[$i]}"; done
+#names_arr=("File name" ${names_arr[@]})
+#count_arr=("Total lines" ${count_arr[@]})
+#count_search=("Search wor counter" ${count_search[@]})
+
+printf "%s \t \t  \t  \t  \t  %s \t %s \t %s \n" "File name" "File size" "Total lines" "Search counter" 
+for ((i=0; i< "${#names_arr[@]}"; i++)) do printf "%s \t %s \t \t %s \t %s \n" "${names_arr[$i]}" "$((${size_arr[$i]}/1000000))"MB"" "${count_arr[$i]}" "${count_search[$i]}"; done
 
 
 
