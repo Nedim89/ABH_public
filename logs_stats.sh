@@ -50,11 +50,21 @@ names_arr=($FPATH/*)
 #size_arr=( $(stat -c "%s" ${FPATH}*) )
 #size_arr= ('stat -c "%s" ${FPATH}*')
 #count_arr=$(wc $FPATH/* | awk '{ print $1 }')
+#count_search
+mapfile -t size_arr< <(stat -c "%s" ${FPATH}/*) #veličina fajlova dobra komanda -><-
 
-mapfile -t size_arr< <(stat -c "%s" ${FPATH}/*) #veličina fajlova dobra konada -><-
-
-mapfile -t count_arr< <(wc $FPATH/* | awk '{ print $1 }') #veličina fajlova dobra konada -><-
+mapfile -t count_arr< <(wc $FPATH/* | awk '{ print $1 }') #veličina fajlova dobra komanda -><-
 unset count_arr[-1]
+
+
+mapfile -t count_search< <(for each in "${names_arr[@]}"
+do
+  grep -o 'Chrome' $each | wc -l
+done)
+
+
+
+#for i in ${names_arr[@]}; do grep -o 'Chrome' i | wc -l; done
 
 #echo ${#names_arr[@]}
 #echo ${#size_arr[@]}
@@ -86,7 +96,7 @@ echo "${count_arr[11]}"'
 #done
 
 #printf '%s\n' "${names_arr[0]} ${size_arr[0]} ${count_arr[0]}"
-for ((i=0; i< "${#names_arr[@]}"; i++)) do printf "%s \t %s \t %s \n" "${names_arr[$i]}" "${size_arr[$i]}" "${count_arr[$i]}"; done
+for ((i=0; i< "${#names_arr[@]}"; i++)) do printf "%s \t %s \t %s \t %s \n" "${names_arr[$i]}" "${size_arr[$i]}" "${count_arr[$i]}" "${count_search[$i]}"; done
 
 
 
